@@ -25,10 +25,26 @@ public class ClientService {
     }
 
     public Client findClientByNameAndSurname(String name, String surname) {
-        return clientRepository.findByNameAndSurname(name,surname);
+        return clientRepository.findByNameAndSurname(name, surname);
     }
 
     public void deleteClientById(Long id) {
         clientRepository.delete(findClientById(id));
+    }
+
+    public Client updateClientAge(Long id, int age) {
+        Client client = findClientById(id);
+        client.setAge(age);
+
+        return clientRepository.save(client);
+    }
+
+    public Client updateClient(Client client, Long id) {
+        Client currentClient = clientRepository.findClientById(id);
+        currentClient.setName(client.getName());
+        currentClient.setSurname(client.getSurname());
+        currentClient.setAge(client.getAge());
+
+        return clientRepository.save(currentClient);
     }
 }

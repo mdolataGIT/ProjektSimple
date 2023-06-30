@@ -23,7 +23,7 @@ public class CarController {
     }
 
     @GetMapping
-    public Iterable<Car> getAllCars(){
+    public Iterable<Car> getAllCars() {
         return carService.findAllCars();
     }
 }

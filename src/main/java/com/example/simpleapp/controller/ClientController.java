@@ -19,29 +19,39 @@ public class ClientController {
 
 
     @GetMapping
-    public Iterable<Client> getAllClients(){
+    public Iterable<Client> getAllClients() {
         return clientService.findAllClients();
     }
 
     @GetMapping("/{id}")
-    public Client getClientById(@PathVariable Long id){
+    public Client getClientById(@PathVariable Long id) {
         return clientService.findClientById(id);
     }
 
 
     @GetMapping("/{name}/{surname}")
-    public Client getClientByNameAndSurname(@PathVariable String name, @PathVariable String surname){
-        return clientService.findClientByNameAndSurname(name,surname);
+    public Client getClientByNameAndSurname(@PathVariable String name, @PathVariable String surname) {
+        return clientService.findClientByNameAndSurname(name, surname);
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewClient(@Valid @RequestBody Client client){
+    public ResponseEntity<?> createNewClient(@Valid @RequestBody Client client) {
         return new ResponseEntity<Client>(clientService.saveClient(client), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteClient (@PathVariable Long id){
+    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
         clientService.deleteClientById(id);
-        return new ResponseEntity<>("Client with Id: '"+id+ "' was deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Client with Id: '" + id + "' was deleted", HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/{age}")
+    public ResponseEntity<?> updateClientAge(@PathVariable Long id, @PathVariable int age) {
+        return new ResponseEntity<Client>(clientService.updateClientAge(id, age), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateClient(@Valid @RequestBody Client client, @PathVariable Long id) {
+        return new ResponseEntity<Client>(clientService.updateClient(client, id), HttpStatus.CREATED);
     }
 }
