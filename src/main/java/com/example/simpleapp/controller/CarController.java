@@ -21,4 +21,9 @@ public class CarController {
     public ResponseEntity<?> addCar(@Valid @RequestBody Car car, @PathVariable Long clientId) {
         return new ResponseEntity<Car>(carService.addCar(car, clientId), HttpStatus.CREATED);
     }
+
+    @GetMapping
+    public Iterable<Car> getAllCars(){
+        return carService.findAllCars();
+    }
 }

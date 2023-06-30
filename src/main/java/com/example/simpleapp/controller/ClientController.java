@@ -38,4 +38,10 @@ public class ClientController {
     public ResponseEntity<?> createNewClient(@Valid @RequestBody Client client){
         return new ResponseEntity<Client>(clientService.saveClient(client), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteClient (@PathVariable Long id){
+        clientService.deleteClientById(id);
+        return new ResponseEntity<>("Client with Id: '"+id+ "' was deleted", HttpStatus.OK);
+    }
 }

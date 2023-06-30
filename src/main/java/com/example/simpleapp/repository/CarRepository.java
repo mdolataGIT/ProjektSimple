@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarRepository extends CrudRepository<Car, Long> {
 
+    @Override
+    Iterable<Car> findAll();
+
 }

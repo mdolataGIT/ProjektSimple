@@ -27,4 +27,8 @@ public class ClientService {
     public Client findClientByNameAndSurname(String name, String surname) {
         return clientRepository.findByNameAndSurname(name,surname);
     }
+
+    public void deleteClientById(Long id) {
+        clientRepository.delete(findClientById(id));
+    }
 }
