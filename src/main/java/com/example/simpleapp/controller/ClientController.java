@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/client")
@@ -25,7 +24,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Client> getClientById(@PathVariable Long id){
+    public Client getClientById(@PathVariable Long id){
         return clientService.findClientById(id);
     }
 

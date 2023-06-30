@@ -7,7 +7,6 @@ import com.example.simpleapp.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class CarService {
@@ -19,8 +18,8 @@ public class CarService {
     ClientRepository clientRepository;
 
     public Car addCar(Car car, Long clientId) {
-        Optional<Client> client = clientRepository.findById(clientId);
-        car.setClient(client.get());
+        Client client = clientRepository.findClientById(clientId);
+        car.setClient(client);
 
         return carRepository.save(car);
     }
