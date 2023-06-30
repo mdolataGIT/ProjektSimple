@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/car")
@@ -25,5 +26,31 @@ public class CarController {
     @GetMapping
     public Iterable<Car> getAllCars() {
         return carService.findAllCars();
+    }
+
+    @GetMapping("/carsByBrand/{brand}")
+    List<Car> getCarByBrand(@PathVariable String brand){
+        return carService.findCarByBrand(brand);
+    }
+
+    @GetMapping("/{carId}")
+    public Car getCarById (@PathVariable Long carId){
+        return carService.findCarById(carId);
+    }
+
+    @DeleteMapping("/{carId}")
+    public ResponseEntity<?> deleteCar(@PathVariable Long carId){
+        carService.deleteCarById(carId);
+        return new ResponseEntity<>("Car was deleted", HttpStatus.OK);
+    }
+
+    @PatchMapping("/{carId}/{model}")
+    public ResponseEntity<?> updateCarModel(@PathVariable Long carId, @PathVariable String model){
+        return new ResponseEntity<Car>(carService.updateCarModel(carId, model), HttpStatus.OK);
+    }
+
+    @PutMapping("/{carId}")
+    public ResponseEntity<?> updateCar (@Valid @RequestBody Car car, @PathVariable Long carId){
+        return new ResponseEntity<Car>(carService.updateCar(car, carId), HttpStatus.OK);
     }
 }

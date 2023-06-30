@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/client")
@@ -16,7 +17,6 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
-
 
     @GetMapping
     public Iterable<Client> getAllClients() {
@@ -28,9 +28,8 @@ public class ClientController {
         return clientService.findClientById(id);
     }
 
-
     @GetMapping("/{name}/{surname}")
-    public Client getClientByNameAndSurname(@PathVariable String name, @PathVariable String surname) {
+    public List<Client> getClientByNameAndSurname(@PathVariable String name, @PathVariable String surname) {
         return clientService.findClientByNameAndSurname(name, surname);
     }
 

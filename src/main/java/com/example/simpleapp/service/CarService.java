@@ -8,6 +8,7 @@ import com.example.simpleapp.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @Service
 public class CarService {
@@ -34,5 +35,32 @@ public class CarService {
 
     public Iterable<Car> findAllCars() {
         return carRepository.findAll();
+    }
+
+    public Car findCarById(Long carId) {
+        return carRepository.findCarById(carId);
+    }
+
+    public void deleteCarById(Long carId) {
+        carRepository.delete(findCarById(carId));
+    }
+
+    public Car updateCarModel(Long carId, String model) {
+        Car car = findCarById(carId);
+        car.setModel(model);
+
+        return carRepository.save(car);
+    }
+
+    public Car updateCar(Car car, Long carId) {
+        Car currentCar = carRepository.findCarById(carId);
+        currentCar.setBrand(car.getBrand());
+        currentCar.setModel(car.getModel());
+
+        return carRepository.save(currentCar);
+    }
+
+    public List<Car> findCarByBrand(String brand) {
+        return carRepository.findByBrand(brand);
     }
 }

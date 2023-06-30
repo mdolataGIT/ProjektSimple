@@ -5,6 +5,7 @@ import com.example.simpleapp.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -24,7 +25,7 @@ public class ClientService {
         return clientRepository.findClientById(id);
     }
 
-    public Client findClientByNameAndSurname(String name, String surname) {
+    public List<Client> findClientByNameAndSurname(String name, String surname) {
         return clientRepository.findByNameAndSurname(name, surname);
     }
 
