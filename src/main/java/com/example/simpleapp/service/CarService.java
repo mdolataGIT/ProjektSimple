@@ -58,16 +58,18 @@ public class CarService {
         Car currentCar = findCarById(carId);
         currentCar.setBrand(car.getBrand());
         currentCar.setModel(car.getModel());
+        currentCar.setVin(car.getVin());
+        currentCar.setColour(car.getColour());
 
         return carRepository.save(currentCar);
     }
 
-    public List<Car> findCarByBrand(String brand) {
-        List<Car> carsByBrand = carRepository.findByBrand(brand);
+    public List<Car> findCarByBrandAndModel(String brand, String model) {
+        List<Car> carsByBrandAndModel = carRepository.findByBrandAndModel(brand, model);
 
-        if (carsByBrand.isEmpty()) {
-            throw new CarIdException("Cars with brand '" + brand + "' does not exist");
+        if (carsByBrandAndModel.isEmpty()) {
+            throw new CarIdException("Cars with brand '" + brand + "and model '" + model + "' does not exist");
         }
-        return carsByBrand;
+        return carsByBrandAndModel;
     }
 }

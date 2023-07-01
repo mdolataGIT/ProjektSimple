@@ -58,6 +58,8 @@ public class ClientService {
         currentClient.setName(client.getName());
         currentClient.setSurname(client.getSurname());
         currentClient.setAge(client.getAge());
+        currentClient.setCity(client.getCity());
+        currentClient.setPhoneNumber(client.getPhoneNumber());
 
         return clientRepository.save(currentClient);
     }

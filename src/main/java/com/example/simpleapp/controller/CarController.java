@@ -2,12 +2,16 @@ package com.example.simpleapp.controller;
 
 import com.example.simpleapp.domain.Car;
 import com.example.simpleapp.service.CarService;
+import com.example.simpleapp.service.MapValidationErrorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
+
 import java.util.List;
 
 @RestController
@@ -16,10 +20,19 @@ import java.util.List;
 public class CarController {
 
     @Autowired
-    CarService carService;
+    private CarService carService;
+
+    @Autowired
+    private MapValidationErrorService mapValidationErrorService;
+
 
     @PostMapping("/{clientId}")
-    public ResponseEntity<?> addCar(@Valid @RequestBody Car car, @PathVariable Long clientId) {
+    public ResponseEntity<?> addCar(@Valid @RequestBody Car car, @PathVariable Long clientId, final BindingResult bindingResult) {
+        ResponseEntity<?> errorMap =  mapValidationErrorService.MapValidationService(bindingResult);
+        if (errorMap != null) {
+            return errorMap;
+        }
+
         return new ResponseEntity<Car>(carService.addCar(car, clientId), HttpStatus.CREATED);
     }
 
@@ -28,9 +41,9 @@ public class CarController {
         return carService.findAllCars();
     }
 
-    @GetMapping("/carsByBrand/{brand}")
-    List<Car> getCarByBrand(@PathVariable String brand) {
-        return carService.findCarByBrand(brand);
+    @GetMapping("/carsByBrand/{brand}/{model}")
+    List<Car> getCarByBrandAndModel(@PathVariable String brand, @PathVariable String model) {
+        return carService.findCarByBrandAndModel(brand, model);
     }
 
     @GetMapping("/{carId}")
@@ -46,11 +59,21 @@ public class CarController {
 
     @PatchMapping("/{carId}/{model}")
     public ResponseEntity<?> updateCarModel(@PathVariable Long carId, @PathVariable String model) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
+//        if (errorMap != null) {
+//            return errorMap;
+//        }
+
         return new ResponseEntity<Car>(carService.updateCarModel(carId, model), HttpStatus.OK);
     }
 
     @PutMapping("/{carId}")
     public ResponseEntity<?> updateCar(@Valid @RequestBody Car car, @PathVariable Long carId) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
+//        if (errorMap != null) {
+//            return errorMap;
+//        }
+
         return new ResponseEntity<Car>(carService.updateCar(car, carId), HttpStatus.OK);
     }
 }

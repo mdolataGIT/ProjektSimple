@@ -1,28 +1,29 @@
 package com.example.simpleapp.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Entity
 @Getter
 @Setter
-public class Trade {
+public class EngineSpecification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Value is required")
-    private Integer value;
+    @NotNull(message = "Capacity is required")
+    private Integer capacity;
 
-    @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date purchaseDate;
+    @NotNull(message = "Power is required")
+    private Integer power;
+
+    @NotBlank(message = "Engine type is required")
+    private String engineType;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
