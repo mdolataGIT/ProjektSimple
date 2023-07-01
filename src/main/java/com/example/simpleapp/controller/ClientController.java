@@ -51,6 +51,6 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateClient(@Valid @RequestBody Client client, @PathVariable Long id) {
-        return new ResponseEntity<Client>(clientService.updateClient(client, id), HttpStatus.CREATED);
+        return new ResponseEntity<Client>(clientService.updateClient(client, id), HttpStatus.OK);
     }
 }

@@ -2,7 +2,7 @@ package com.example.simpleapp.service;
 
 import com.example.simpleapp.domain.Car;
 import com.example.simpleapp.domain.Client;
-import com.example.simpleapp.exception.ClientIdException;
+import com.example.simpleapp.exception.CarIdException;
 import com.example.simpleapp.repository.CarRepository;
 import com.example.simpleapp.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,14 @@ public class CarService {
     @Autowired
     ClientRepository clientRepository;
 
+    @Autowired
+    ClientService clientService;
+
     public Car addCar(Car car, Long clientId) {
-
-        Client client = clientRepository.findClientById(clientId);
-
-        if (client == null) {
-            throw new ClientIdException("Client Id" + clientId + " does not exist");
-        }
-
+        Client client = clientService.findClientById(clientId);
         car.setClient(client);
 
         return carRepository.save(car);
-
     }
 
     public Iterable<Car> findAllCars() {
@@ -38,7 +34,13 @@ public class CarService {
     }
 
     public Car findCarById(Long carId) {
-        return carRepository.findCarById(carId);
+        Car car = carRepository.findCarById(carId);
+
+        if (car == null) {
+            throw new CarIdException("Car ID '" + carId + "' does not exist");
+        }
+
+        return car;
     }
 
     public void deleteCarById(Long carId) {
@@ -53,7 +55,7 @@ public class CarService {
     }
 
     public Car updateCar(Car car, Long carId) {
-        Car currentCar = carRepository.findCarById(carId);
+        Car currentCar = findCarById(carId);
         currentCar.setBrand(car.getBrand());
         currentCar.setModel(car.getModel());
 
@@ -61,6 +63,11 @@ public class CarService {
     }
 
     public List<Car> findCarByBrand(String brand) {
-        return carRepository.findByBrand(brand);
+        List<Car> carsByBrand = carRepository.findByBrand(brand);
+
+        if (carsByBrand.isEmpty()) {
+            throw new CarIdException("Cars with brand '" + brand + "' does not exist");
+        }
+        return carsByBrand;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.simpleapp.service;
 
 import com.example.simpleapp.domain.Client;
+import com.example.simpleapp.exception.ClientIdException;
 import com.example.simpleapp.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,23 @@ public class ClientService {
     }
 
     public Client findClientById(Long id) {
-        return clientRepository.findClientById(id);
+        Client client = clientRepository.findClientById(id);
+
+        if (client == null) {
+            throw new ClientIdException("Client ID '" + id + "' does not exists");
+        }
+
+        return client;
     }
 
     public List<Client> findClientByNameAndSurname(String name, String surname) {
-        return clientRepository.findByNameAndSurname(name, surname);
+        List<Client> clientsByNameAndSurname = clientRepository.findByNameAndSurname(name, surname);
+
+        if (clientsByNameAndSurname.isEmpty()) {
+            throw new ClientIdException("Clients with name '" + name + "' and surname '" + surname + "' does not exists");
+        }
+
+        return clientsByNameAndSurname;
     }
 
     public void deleteClientById(Long id) {
@@ -41,7 +54,7 @@ public class ClientService {
     }
 
     public Client updateClient(Client client, Long id) {
-        Client currentClient = clientRepository.findClientById(id);
+        Client currentClient = findClientById(id);
         currentClient.setName(client.getName());
         currentClient.setSurname(client.getSurname());
         currentClient.setAge(client.getAge());
