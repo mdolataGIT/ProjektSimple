@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
-
 import java.util.List;
 
 @RestController
@@ -28,7 +26,7 @@ public class CarController {
 
     @PostMapping("/{clientId}")
     public ResponseEntity<?> addCar(@Valid @RequestBody Car car, @PathVariable Long clientId, final BindingResult bindingResult) {
-        ResponseEntity<?> errorMap =  mapValidationErrorService.MapValidationService(bindingResult);
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
         if (errorMap != null) {
             return errorMap;
         }
@@ -59,21 +57,11 @@ public class CarController {
 
     @PatchMapping("/{carId}/{model}")
     public ResponseEntity<?> updateCarModel(@PathVariable Long carId, @PathVariable String model) {
-//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
-//        if (errorMap != null) {
-//            return errorMap;
-//        }
-
         return new ResponseEntity<Car>(carService.updateCarModel(carId, model), HttpStatus.OK);
     }
 
     @PutMapping("/{carId}")
     public ResponseEntity<?> updateCar(@Valid @RequestBody Car car, @PathVariable Long carId) {
-//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
-//        if (errorMap != null) {
-//            return errorMap;
-//        }
-
         return new ResponseEntity<Car>(carService.updateCar(car, carId), HttpStatus.OK);
     }
 }

@@ -56,21 +56,11 @@ public class ClientController {
 
     @PatchMapping("/{id}/{age}")
     public ResponseEntity<?> updateClientAge(@PathVariable Long id, @PathVariable int age) {
-//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
-//        if (errorMap != null) {
-//            return errorMap;
-//        }
-
         return new ResponseEntity<Client>(clientService.updateClientAge(id, age), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateClient(@Valid @RequestBody Client client, @PathVariable Long id) {
-//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
-//        if (errorMap != null) {
-//            return errorMap;
-//        }
-
         return new ResponseEntity<Client>(clientService.updateClient(client, id), HttpStatus.OK);
     }
 }
