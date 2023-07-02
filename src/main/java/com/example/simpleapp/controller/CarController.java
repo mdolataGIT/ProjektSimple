@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.BindingResult;;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class CarController {
             return errorMap;
         }
 
-        return new ResponseEntity<Car>(carService.addCar(car, clientId), HttpStatus.CREATED);
+        return new ResponseEntity<>(carService.addCar(car, clientId), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -39,7 +39,7 @@ public class CarController {
         return carService.findAllCars();
     }
 
-    @GetMapping("/carsByBrand/{brand}/{model}")
+    @GetMapping("/carsByBrandAndModel/{brand}/{model}")
     List<Car> getCarByBrandAndModel(@PathVariable String brand, @PathVariable String model) {
         return carService.findCarByBrandAndModel(brand, model);
     }
@@ -57,11 +57,11 @@ public class CarController {
 
     @PatchMapping("/{carId}/{model}")
     public ResponseEntity<?> updateCarModel(@PathVariable Long carId, @PathVariable String model) {
-        return new ResponseEntity<Car>(carService.updateCarModel(carId, model), HttpStatus.OK);
+        return new ResponseEntity<>(carService.updateCarModel(carId, model), HttpStatus.OK);
     }
 
     @PutMapping("/{carId}")
     public ResponseEntity<?> updateCar(@Valid @RequestBody Car car, @PathVariable Long carId) {
-        return new ResponseEntity<Car>(carService.updateCar(car, carId), HttpStatus.OK);
+        return new ResponseEntity<>(carService.updateCar(car, carId), HttpStatus.OK);
     }
 }
