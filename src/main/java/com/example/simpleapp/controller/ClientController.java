@@ -2,12 +2,10 @@ package com.example.simpleapp.controller;
 
 import com.example.simpleapp.domain.Client;
 import com.example.simpleapp.service.ClientService;
-import com.example.simpleapp.service.MapValidationErrorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +17,6 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
-
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
 
     @GetMapping
     public Iterable<Client> getAllClients() {
@@ -39,13 +34,8 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createNewClient(@Valid @RequestBody Client client, final BindingResult bindingResult) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
-        if (errorMap != null) {
-            return errorMap;
-        }
-
-        return new ResponseEntity<>(clientService.saveClient(client), HttpStatus.CREATED);
+    public ResponseEntity<?> createClient(@Valid @RequestBody Client client) {
+        return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

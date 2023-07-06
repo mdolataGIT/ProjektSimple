@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -22,7 +22,7 @@ public class Trade {
     private Integer value;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date purchaseDate;
+    private LocalDate purchaseDate;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore

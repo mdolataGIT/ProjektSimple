@@ -2,12 +2,10 @@ package com.example.simpleapp.controller;
 
 import com.example.simpleapp.domain.Car;
 import com.example.simpleapp.service.CarService;
-import com.example.simpleapp.service.MapValidationErrorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,18 +18,9 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
-
-
     @PostMapping("/{clientId}")
-    public ResponseEntity<?> addCar(@Valid @RequestBody Car car, @PathVariable Long clientId, final BindingResult bindingResult) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(bindingResult);
-        if (errorMap != null) {
-            return errorMap;
-        }
-
-        return new ResponseEntity<>(carService.addCar(car, clientId), HttpStatus.CREATED);
+    public ResponseEntity<?> createCar(@Valid @RequestBody Car car, @PathVariable Long clientId) {
+        return new ResponseEntity<>(carService.createCar(car, clientId), HttpStatus.CREATED);
     }
 
     @GetMapping

@@ -22,7 +22,7 @@ public class CarService {
     @Autowired
     ClientService clientService;
 
-    public Car addCar(Car car, Long clientId) {
+    public Car createCar(Car car, Long clientId) {
         Client client = clientService.findClientById(clientId);
         car.setClient(client);
 
